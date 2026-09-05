@@ -1,0 +1,8 @@
+/target/
+/.zed/
+/.zpkg-pack/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
