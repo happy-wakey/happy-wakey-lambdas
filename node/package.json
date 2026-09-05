@@ -9,6 +9,6 @@
     "bundle:bun": "bun build handler.mjs --compile --outfile dist/handler-bun"
   },
   "devDependencies": {
-    "rollup": "^4.0.0"
+    "rollup": "4.63.1"
   }
 }
