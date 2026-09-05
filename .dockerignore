@@ -1,0 +1,13 @@
+target/
+**/target/
+.git/
+.github/
+.env
+.env.*
+env/
+tmp/
+temp/
+.vendor/
+.zed/
+node_modules/
+*.log

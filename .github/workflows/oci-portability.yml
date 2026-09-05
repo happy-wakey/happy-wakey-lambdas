@@ -1,0 +1,55 @@
+name: OCI portability
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oci-portability-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify OCI contract
+        run: |
+          test -x entrypoint.sh
+          test -f Dockerfile
+          test -f Containerfile
+          test -f oci-build.json
+          test -f node/handler.mjs
+          test -f node/rollup.config.mjs
+          grep -F '"linux/amd64"' oci-build.json
+          grep -F '"linux/arm64"' oci-build.json
+
+  image:
+    name: docker-and-oci-multi-platform
+    needs: contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up BuildKit
+        uses: docker/setup-buildx-action@v3
+      - name: Build Docker multi-platform image
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --file Dockerfile \
+            --tag local/lambda:oci \
+            --output type=oci,dest=tmp/lambda-image.oci .
+      - name: Confirm OCI archive exists
+        run: test -s tmp/lambda-image.oci
