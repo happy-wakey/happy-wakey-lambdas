@@ -16,6 +16,9 @@ tag_format = "v{version}"
 exclude = [".env", ".env.*", "target/**", "tmp/**", "**/*.log", ".DS_Store"]
 smoke_test = "python3 \"$ZED_PKG_TEST_TARGET/scripts/validate_repository.py\""
 
+[dependencies]
+"scintilla-run/scintilla-lambdas" = "^0.1.0"
+
 [targets.repository]
 dir = "."
 adapter = "rust"

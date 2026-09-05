@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/scintilla-run/scintilla-lambdas/main/schemas/oci-build.schema.json",
+  "schemaVersion": "ores.lambda-oci.v1",
+  "organization": "happy-wakey",
+  "repository": "happy-wakey-lambdas",
+  "imageFormats": ["docker", "oci"],
+  "architectures": ["linux/amd64", "linux/arm64"],
+  "build": {
+    "dockerfile": { "path": "Dockerfile", "multiStage": true },
+    "containerfile": { "path": "Containerfile", "format": "oci", "multiStage": true },
+    "defaultBinary": "oci-http",
+    "sourceCommitLabel": "org.opencontainers.image.revision"
+  },
+  "entrypoint": {
+    "path": "entrypoint.sh",
+    "sidecarExecutableEnv": "LAMBDA_SIDECAR_PROC",
+    "defaultSidecarExecutable": "any_such_sidecar_proc",
+    "streams": "stdout+stderr",
+    "preservesWorkloadExitStatus": true
+  },
+  "providers": [
+    "aws-lambda",
+    "gcp-cloud-run",
+    "azure-functions",
+    "vercel",
+    "cloudflare-workers",
+    "kubernetes",
+    "oci",
+    "local"
+  ],
+  "node": {
+    "source": "node/handler.mjs",
+    "bundleConfig": "node/rollup.config.mjs",
+    "bundleOutputIsSingleFile": true,
+    "denoCompile": "deno compile --allow-env --output dist/handler-deno handler.mjs",
+    "bunCompile": "bun build handler.mjs --compile --outfile dist/handler-bun"
+  },
+  "sharedRuntime": {
+    "role": "consumer",
+    "package": "scintilla-run/scintilla-lambdas",
+    "manager": "zed-pkg",
+    "resolution": "exact-reviewed-release"
+  }
+}
