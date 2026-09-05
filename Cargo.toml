@@ -1,0 +1,25 @@
+[package]
+name = "happy-wakey-lambdas"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "Consent-scoped Happy Wakey ingestion and briefing assembly"
+license = "MIT"
+repository = "https://github.com/happy-wakey/happy-wakey-lambdas"
+
+[dependencies]
+happy-wakey-interfaces = { git = "https://github.com/happy-wakey/happy-wakey-interfaces.git", rev = "35b25d5b49cfd469d633914993450c62f25b36b8" }
+happy-wakey-pub-lib-core = { git = "https://github.com/happy-wakey/happy-wakey-pub-lib-core.git", rev = "09a2b6cf6427b9c67f22672cd731a9ceaf5a6461" }
+ores-middleware = { git = "https://github.com/ORESoftware/ores-middleware.git", rev = "6f73bf1ae97f38f05e2e87e4eb3e0e18e0142529", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "=1.0.145"
+syncer-rs = { git = "https://github.com/opto-sync/syncer.rs.git", rev = "bfa6de8721d1c3e0c5733a80ce0cb4009e65f157" }
+time = { version = "=0.3.54", features = ["parsing"] }
+thiserror = "2"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"

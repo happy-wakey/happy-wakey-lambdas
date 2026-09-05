@@ -1,0 +1,41 @@
+{
+  "schema": "happy-wakey.backend-integrations.v1",
+  "dependencies": [
+    {
+      "name": "ores-middleware",
+      "url": "https://github.com/ORESoftware/ores-middleware",
+      "revision": "6f73bf1ae97f38f05e2e87e4eb3e0e18e0142529",
+      "mode": "rust-library"
+    },
+    {
+      "name": "ores-rate-limit",
+      "url": "https://github.com/ores-rate-limit/ores-rl-lib-core",
+      "revision": "31df606d26280611e2d2d684328a804644eb4255",
+      "mode": "private-service-port"
+    },
+    {
+      "name": "ores-otel",
+      "url": "https://github.com/ores-otel/ores.otel.log",
+      "revision": "fa9eb78bd48d02e754e1c8e4798e0146d051f365",
+      "mode": "middleware-telemetry"
+    },
+    {
+      "name": "opto-sync",
+      "url": "https://github.com/opto-sync/syncer.rs",
+      "revision": "bfa6de8721d1c3e0c5733a80ce0cb4009e65f157",
+      "mode": "rust-library"
+    },
+    {
+      "name": "ores-chat",
+      "url": "https://github.com/ores-chat/ores-chat-interfaces",
+      "revision": "06aa4e45d09061640866b833d2f218b10b25146e",
+      "mode": "private-service-port"
+    },
+    {
+      "name": "shared-auth",
+      "url": "https://github.com/shared-auth/shared-auth-interfaces",
+      "revision": "1c11a633336f5b1109b294052bc7a2dd10405d61",
+      "mode": "private-service-port"
+    }
+  ]
+}

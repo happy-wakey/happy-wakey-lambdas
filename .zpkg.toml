@@ -1,0 +1,24 @@
+[package]
+org = "happy-wakey"
+name = "happy-wakey-lambdas"
+version = "0.1.0"
+description = "Consent-scoped Happy Wakey ingestion and briefing functions"
+license = "MIT"
+keywords = ["briefing", "ingestion", "lambda", "privacy"]
+
+[package.repository]
+vcs = "git"
+url = "https://github.com/happy-wakey/happy-wakey-lambdas"
+
+[publish]
+include_readme = true
+tag_format = "v{version}"
+exclude = [".env", ".env.*", "target/**", "tmp/**", "**/*.log", ".DS_Store"]
+smoke_test = "python3 \"$ZED_PKG_TEST_TARGET/scripts/validate_repository.py\""
+
+[targets.repository]
+dir = "."
+adapter = "rust"
+
+[scripts]
+test = "python3 scripts/validate_repository.py && cargo test --all-targets --locked"
