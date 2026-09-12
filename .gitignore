@@ -8,3 +8,8 @@
 .DS_Store
 tmp/
 temp/
+# Repository-local temporary data and authorized Git worktrees
+tmp
+temp
+tmp/worktrees
+temp/worktrees
