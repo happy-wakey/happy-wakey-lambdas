@@ -36,8 +36,8 @@ fn serve(mut stream: TcpStream) -> io::Result<()> {
     let (method, path, body) = read_request(&mut stream)?;
     let provider = std::env::var("LAMBDA_PROVIDER").unwrap_or_else(|_| "oci".to_owned());
     let (status, response_body) = match (method.as_str(), path.as_str()) {
-        ("GET", "/healthz") | ("GET", "/readyz") => (200, r#"{"status":"ok"}"#.to_owned()),
-        ("POST", "/invoke") | ("POST", "/api/invoke") => (
+        ("GET", "/healthz" | "/readyz") => (200, r#"{"status":"ok"}"#.to_owned()),
+        ("POST", "/invoke" | "/api/invoke") => (
             200,
             format!(
                 r#"{{"schemaVersion":"ores.lambda-command.v1","ok":true,"provider":{},"body":{}}}"#,
