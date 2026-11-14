@@ -24,8 +24,14 @@ const REQUIRED_MIDDLEWARE_CAPABILITIES: &[&str] = &[
     "idempotency",
 ];
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct SecretBearer(String);
+
+impl std::fmt::Debug for SecretBearer {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("SecretBearer([REDACTED])")
+    }
+}
 
 impl SecretBearer {
     /// Accept a bounded bearer for immediate verification.
@@ -605,6 +611,15 @@ mod tests {
             .expect("merged"),
             serde_json::json!({"theme":"dark","lanes":{"weather":true,"markets":true}})
         );
+    }
+
+    #[test]
+    fn bearer_debug_never_exposes_credentials() {
+        let bearer = SecretBearer::new("private-secret".into()).expect("bearer");
+        assert_eq!(format!("{bearer:?}"), "SecretBearer([REDACTED])");
+        let request_debug = format!("{:?}", request());
+        assert!(!request_debug.contains("opaque-token"));
+        assert!(request_debug.contains("SecretBearer([REDACTED])"));
     }
 
     #[test]
