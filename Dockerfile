@@ -2,8 +2,6 @@
 # Build one OCI image for both Docker and Podman/Buildah consumers.
 # The default binary is dependency-free; richer adapters can be selected with
 # --build-arg BINARY=worker-http --build-arg CARGO_FEATURES=http.
-ARG BUILDPLATFORM
-ARG TARGETPLATFORM
 FROM --platform=$BUILDPLATFORM rust:1.88-bookworm AS builder
 ARG TARGETARCH
 ARG BINARY=oci-http
@@ -13,6 +11,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates gcc-aarch64-linux-gnu gcc-x86-64-linux-gnu
 COPY . .
 RUN set -eux; \
+    mkdir -p /out; \
     case "$TARGETARCH" in \
       amd64) target=x86_64-unknown-linux-gnu; linker=x86_64-linux-gnu-gcc ;; \
       arm64) target=aarch64-unknown-linux-gnu; linker=aarch64-linux-gnu-gcc ;; \
@@ -28,7 +27,7 @@ RUN set -eux; \
     fi; \
     cp "target/$target/release/$BINARY" /out/lambda
 
-FROM --platform=$TARGETPLATFORM debian:bookworm-slim AS runtime
+FROM debian:bookworm-slim AS runtime
 ARG SOURCE_REPOSITORY=https://github.com/happy-wakey/happy-wakey-lambdas
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.source="$SOURCE_REPOSITORY" \
